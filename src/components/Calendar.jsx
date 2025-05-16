@@ -5,17 +5,23 @@ import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-
 const styles = StyleSheet.create({
   page: {
     padding: 30,
+    fontFamily: 'Helvetica',
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
+    textAlign: 'center',
   },
   event: {
     marginBottom: 15,
+    padding: 10,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 5,
   },
   eventTitle: {
     fontSize: 14,
     fontWeight: 'bold',
+    marginBottom: 5,
   },
   eventDate: {
     fontSize: 12,
@@ -25,6 +31,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 14,
     color: '#666',
+    textAlign: 'center',
   },
 });
 
@@ -87,10 +94,16 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
                 />
               }
               fileName={`semester-${semester}-calendar.pdf`}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 transition-colors px-4 py-2 rounded-lg text-white"
             >
-              <Download className="w-5 h-5" />
-              Download PDF
+              {({ loading }) => (
+                <button 
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 transition-colors px-4 py-2 rounded-lg text-white"
+                  disabled={loading}
+                >
+                  <Download className="w-5 h-5" />
+                  {loading ? 'Preparing PDF...' : 'Download PDF'}
+                </button>
+              )}
             </PDFDownloadLink>
           )}
         </div>

@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Calendar, Clock, BookOpen, GraduationCap, School, Flag, Calculator } from 'lucide-react';
+import { nationalHolidays } from './data/holidays';
 
 interface Event {
   title: string;
   date: string;
   type: 'cia' | 'lab' | 'regular' | 'holiday';
 }
-
-const nationalHolidays = [
-  { date: '2024-01-26', title: 'Republic Day' },
-  { date: '2024-08-15', title: 'Independence Day' },
-  { date: '2024-10-02', title: 'Gandhi Jayanti' },
-  { date: '2024-01-15', title: 'Sankranti' },
-  { date: '2024-03-25', title: 'Holi' },
-  { date: '2024-04-11', title: 'Ramzan' },
-  { date: '2024-08-26', title: 'Janmashtami' },
-  { date: '2024-10-31', title: 'Diwali' },
-  { date: '2024-12-25', title: 'Christmas' }
-];
 
 function App() {
   const [semester, setSemester] = useState('1');
@@ -36,9 +25,7 @@ function App() {
     const currentDate = new Date(startDate);
 
     while (currentDate <= endDate) {
-      // Skip weekends
       if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
-        // Check if it's not a holiday
         const isHoliday = holidays.some(holiday => 
           new Date(holiday.date).toDateString() === currentDate.toDateString()
         );
@@ -52,10 +39,15 @@ function App() {
   };
 
   const generateCalendar = () => {
+    if (!semesterStart || !semesterEnd) return;
+
+    const startDate = new Date(semesterStart);
+    const endDate = new Date(semesterEnd);
+
     const relevantHolidays = nationalHolidays
       .filter(holiday => {
         const holidayDate = new Date(holiday.date);
-        return holidayDate >= new Date(semesterStart) && holidayDate <= new Date(semesterEnd);
+        return holidayDate >= startDate && holidayDate <= endDate;
       })
       .map(holiday => ({
         title: holiday.title,
@@ -63,16 +55,18 @@ function App() {
         type: 'holiday' as const
       }));
 
-    const newEvents: Event[] = [
-      { title: `${semester}${getSemesterSuffix(semester)} Semester Start`, date: semesterStart, type: 'regular' },
-      { title: `${semester}${getSemesterSuffix(semester)} Semester End`, date: semesterEnd, type: 'regular' },
-      { title: 'CIA 1', date: cia1Date, type: 'cia' },
-      { title: 'CIA 2', date: cia2Date, type: 'cia' },
-      { title: 'CIA 3', date: cia3Date, type: 'cia' },
-      ...relevantHolidays
-    ];
+    const allEvents = [
+      { title: `${semester}${getSemesterSuffix(semester)} Semester Start`, date: semesterStart, type: 'regular' as const },
+      { title: 'CIA 1', date: cia1Date, type: 'cia' as const },
+      { title: 'CIA 2', date: cia2Date, type: 'cia' as const },
+      { title: 'CIA 3', date: cia3Date, type: 'cia' as const },
+      ...relevantHolidays,
+      { title: `${semester}${getSemesterSuffix(semester)} Semester End`, date: semesterEnd, type: 'regular' as const }
+    ].filter(event => event.date);
 
-    setEvents(newEvents);
+    allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    
+    setEvents(allEvents);
     setWorkingDays(calculateWorkingDays(semesterStart, semesterEnd, relevantHolidays));
   };
 
