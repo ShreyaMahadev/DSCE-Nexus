@@ -1,5 +1,65 @@
-import { Calendar as CalendarIcon, Calculator, Flag } from 'lucide-react';
+import { Calendar as CalendarIcon, Calculator, Flag, Download } from 'lucide-react';
 import PropTypes from 'prop-types';
+import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+
+const styles = StyleSheet.create({
+  page: {
+    padding: 30,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  event: {
+    marginBottom: 15,
+  },
+  eventTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  eventDate: {
+    fontSize: 12,
+    color: '#666',
+  },
+  workingDays: {
+    marginTop: 20,
+    fontSize: 14,
+    color: '#666',
+  },
+});
+
+const CalendarPDF = ({ events, semester, getSemesterSuffix, workingDays }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <Text style={styles.title}>
+        {semester}{getSemesterSuffix(semester)} Semester Calendar
+      </Text>
+      {events.map((event, index) => (
+        <View key={index} style={styles.event}>
+          <Text style={styles.eventTitle}>{event.title}</Text>
+          <Text style={styles.eventDate}>
+            {new Date(event.date).toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </Text>
+        </View>
+      ))}
+      <Text style={styles.workingDays}>
+        Total Working Days: {workingDays}
+      </Text>
+    </Page>
+  </Document>
+);
+
+CalendarPDF.propTypes = {
+  events: PropTypes.array.isRequired,
+  semester: PropTypes.string.isRequired,
+  getSemesterSuffix: PropTypes.func.isRequired,
+  workingDays: PropTypes.number.isRequired,
+};
 
 function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
   return (
@@ -9,12 +69,31 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
           <CalendarIcon className="w-7 h-7 text-blue-400" />
           {semester}{getSemesterSuffix(semester)} Semester Calendar
         </h2>
-        {workingDays > 0 && (
-          <div className="flex items-center gap-2 bg-blue-900/50 px-4 py-2 rounded-lg">
-            <Calculator className="w-5 h-5 text-blue-400" />
-            <span className="text-blue-200 font-medium">{workingDays} Working Days</span>
-          </div>
-        )}
+        <div className="flex items-center gap-4">
+          {workingDays > 0 && (
+            <div className="flex items-center gap-2 bg-blue-900/50 px-4 py-2 rounded-lg">
+              <Calculator className="w-5 h-5 text-blue-400" />
+              <span className="text-blue-200 font-medium">{workingDays} Working Days</span>
+            </div>
+          )}
+          {events.length > 0 && (
+            <PDFDownloadLink
+              document={
+                <CalendarPDF
+                  events={events}
+                  semester={semester}
+                  getSemesterSuffix={getSemesterSuffix}
+                  workingDays={workingDays}
+                />
+              }
+              fileName={`semester-${semester}-calendar.pdf`}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 transition-colors px-4 py-2 rounded-lg text-white"
+            >
+              <Download className="w-5 h-5" />
+              Download PDF
+            </PDFDownloadLink>
+          )}
+        </div>
       </div>
       
       <div className="space-y-4">
