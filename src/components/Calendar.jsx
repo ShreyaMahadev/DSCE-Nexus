@@ -118,17 +118,31 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
           {events.map((event, index) => (
             <div
               key={index}
-              className="p-4 rounded-xl border border-gray-100 hover:border-blue-100 transition-colors"
+              className={`p-4 rounded-xl transition-colors ${
+                event.type === 'holiday'
+                  ? 'bg-red-50 border-l-4 border-red-500'
+                  : event.type === 'cia'
+                  ? 'bg-purple-50 border-l-4 border-purple-500'
+                  : 'bg-blue-50 border-l-4 border-blue-500'
+              }`}
             >
               <div className="flex items-center gap-3">
                 {event.type === 'holiday' ? (
-                  <Flag className="w-5 h-5 text-red-400" />
+                  <Flag className="w-5 h-5 text-red-600" />
+                ) : event.type === 'cia' ? (
+                  <CalendarIcon className="w-5 h-5 text-purple-600" />
                 ) : (
-                  <CalendarIcon className="w-5 h-5 text-blue-400" />
+                  <CalendarIcon className="w-5 h-5 text-blue-600" />
                 )}
-                <h3 className="font-medium text-gray-900">{event.title}</h3>
+                <h3 className={`font-medium ${
+                  event.type === 'holiday' 
+                    ? 'text-red-900' 
+                    : event.type === 'cia'
+                    ? 'text-purple-900'
+                    : 'text-blue-900'
+                }`}>{event.title}</h3>
               </div>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-gray-600">
                 {new Date(event.date).toLocaleDateString('en-US', {
                   weekday: 'long',
                   year: 'numeric',
