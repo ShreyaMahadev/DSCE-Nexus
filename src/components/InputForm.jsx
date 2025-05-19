@@ -23,7 +23,7 @@ function InputForm({
         <School className="w-7 h-7 text-blue-400" />
         Academic Details
       </h2>
-      
+
       <div className="space-y-6">
         <div className="mb-8">
           <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -50,7 +50,7 @@ function InputForm({
             type="date"
             value={semesterStart}
             onChange={(e) => setSemesterStart(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border-blue-900 bg-blue-900/20 text-white shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200/20"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none"
           />
         </div>
 
@@ -62,7 +62,7 @@ function InputForm({
             type="date"
             value={semesterEnd}
             onChange={(e) => setSemesterEnd(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border-blue-900 bg-blue-900/20 text-white shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200/20"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none"
           />
         </div>
 
@@ -71,14 +71,14 @@ function InputForm({
             <Clock className="w-6 h-6 text-blue-400" />
             CIA Examination Dates
           </h3>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">CIA 1</label>
             <input
               type="date"
               value={cia1Date}
               onChange={(e) => setCia1Date(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border-blue-900 bg-blue-900/20 text-white shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200/20"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none"
             />
           </div>
 
@@ -88,7 +88,7 @@ function InputForm({
               type="date"
               value={cia2Date}
               onChange={(e) => setCia2Date(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border-blue-900 bg-blue-900/20 text-white shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200/20"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none"
             />
           </div>
 
@@ -98,7 +98,7 @@ function InputForm({
               type="date"
               value={cia3Date}
               onChange={(e) => setCia3Date(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border-blue-900 bg-blue-900/20 text-white shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200/20"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none"
             />
           </div>
         </div>
