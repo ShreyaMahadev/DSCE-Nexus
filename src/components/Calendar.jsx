@@ -168,7 +168,7 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
               fileName={`semester-${semester}-calendar.pdf`}
             >
               {({ loading }) => (
-                <button className="w-full bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors duration-200 shadow-lg flex items-center justify-center gap-2">
+                <button className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-3 rounded-xl hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 shadow-lg flex items-center justify-center gap-2">
                   <Download className="w-5 h-5" />
                   {loading ? 'Preparing PDF...' : 'Download Calendar PDF'}
                 </button>

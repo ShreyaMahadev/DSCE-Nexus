@@ -121,7 +121,7 @@ function InputForm({
 
         <button
           onClick={generateCalendar}
-          className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 text-white py-4 px-6 rounded-xl hover:from-blue-700 hover:via-indigo-700 hover:to-blue-700 transition duration-300 flex items-center justify-center gap-3 mt-8 shadow-lg"
+          className="w-full bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-500 text-white py-4 px-6 rounded-xl hover:from-teal-600 hover:via-emerald-600 hover:to-teal-600 transition duration-300 flex items-center justify-center gap-3 mt-8 shadow-lg"
         >
           <BookOpen className="w-6 h-6" />
           Generate Calendar
