@@ -174,31 +174,30 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
             <p className="text-lg">No events generated yet. Please input dates and generate the calendar.</p>
           </div>
         )}
-
-        {events.length > 0 && (
-          <div className="mt-8">
-            <PDFDownloadLink
-              document={
-                <CalendarPDF
-                  events={events}
-                  semester={semester}
-                  getSemesterSuffix={getSemesterSuffix}
-                  workingDays={workingDays}
-                />
-              }
-              fileName={`semester-${semester}-calendar.pdf`}
-              className="flex items-center justify-center gap-2 w-full bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors duration-200 shadow-lg"
-            >
-              {({ loading }) => (
-                <>
-                  <Download className="w-5 h-5" />
-                  {loading ? 'Preparing PDF...' : 'Download Calendar PDF'}
-                </>
-              )}
-            </PDFDownloadLink>
-          </div>
-        )}
       </div>
+
+      {events.length > 0 && (
+        <div className="mt-8">
+          <PDFDownloadLink
+            document={
+              <CalendarPDF
+                events={events}
+                semester={semester}
+                getSemesterSuffix={getSemesterSuffix}
+                workingDays={workingDays}
+              />
+            }
+            fileName={`semester-${semester}-calendar.pdf`}
+          >
+            {({ loading }) => (
+              <button className="w-full bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors duration-200 shadow-lg flex items-center justify-center gap-2">
+                <Download className="w-5 h-5" />
+                {loading ? 'Preparing PDF...' : 'Download Calendar PDF'}
+              </button>
+            )}
+          </PDFDownloadLink>
+        </div>
+      )}
     </div>
   );
 }
