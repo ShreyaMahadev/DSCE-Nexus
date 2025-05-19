@@ -34,8 +34,31 @@ function App() {
     return days;
   };
 
-  const generateCalendar = () => {
+  const [dateError, setDateError] = useState('');
+
+const validateDate = (date) => {
+  if (!date) return true;
+  const selectedDate = new Date(date);
+  return selectedDate.getDay() !== 0;
+};
+
+const handleDateChange = (date, setter) => {
+  if (!validateDate(date)) {
+    setDateError('Invalid input: Selected date falls on a Sunday');
+    setter('');
+  } else {
+    setDateError('');
+    setter(date);
+  }
+};
+
+const generateCalendar = () => {
     if (!semesterStart || !semesterEnd) return;
+    if (!validateDate(semesterStart) || !validateDate(semesterEnd) || 
+        !validateDate(cia1Date) || !validateDate(cia2Date) || !validateDate(cia3Date)) {
+      setDateError('Please check your dates. Sundays are not allowed.');
+      return;
+    }
 
     const startDate = new Date(semesterStart);
     const endDate = new Date(semesterEnd);
@@ -93,17 +116,18 @@ function App() {
             semester={semester}
             setSemester={setSemester}
             semesterStart={semesterStart}
-            setSemesterStart={setSemesterStart}
+            setSemesterStart={(date) => handleDateChange(date, setSemesterStart)}
             semesterEnd={semesterEnd}
-            setSemesterEnd={setSemesterEnd}
+            setSemesterEnd={(date) => handleDateChange(date, setSemesterEnd)}
             cia1Date={cia1Date}
-            setCia1Date={setCia1Date}
+            setCia1Date={(date) => handleDateChange(date, setCia1Date)}
             cia2Date={cia2Date}
-            setCia2Date={setCia2Date}
+            setCia2Date={(date) => handleDateChange(date, setCia2Date)}
             cia3Date={cia3Date}
-            setCia3Date={setCia3Date}
+            setCia3Date={(date) => handleDateChange(date, setCia3Date)}
             generateCalendar={generateCalendar}
             getSemesterSuffix={getSemesterSuffix}
+            dateError={dateError}
           />
 
           <Calendar

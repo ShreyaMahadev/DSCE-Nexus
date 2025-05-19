@@ -16,7 +16,8 @@ function InputForm({
   cia3Date,
   setCia3Date,
   generateCalendar,
-  getSemesterSuffix
+  getSemesterSuffix,
+  dateError
 }) {
   return (
     <div className="card p-8 space-y-8">
@@ -25,6 +26,11 @@ function InputForm({
         Academic Details
       </h2>
 
+      {dateError && (
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
+          <p>{dateError}</p>
+        </div>
+      )}
       <div className="space-y-6">
         <div className="mb-8">
           <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -145,7 +151,8 @@ InputForm.propTypes = {
   cia3Date: PropTypes.string.isRequired,
   setCia3Date: PropTypes.func.isRequired,
   generateCalendar: PropTypes.func.isRequired,
-  getSemesterSuffix: PropTypes.func.isRequired
+  getSemesterSuffix: PropTypes.func.isRequired,
+  dateError: PropTypes.string.isRequired
 };
 
 export default InputForm;
