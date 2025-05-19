@@ -1,7 +1,6 @@
 import { Calendar as CalendarIcon, Calculator, Flag, Download } from 'lucide-react';
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
-// Define PDF styles
 const styles = StyleSheet.create({
   page: {
     padding: 30,
@@ -54,7 +53,6 @@ const styles = StyleSheet.create({
   }
 });
 
-// PDF Document Component
 const CalendarPDF = ({ events, semester, getSemesterSuffix, workingDays }) => (
   <Document>
     <Page size="A4" style={styles.page}>
@@ -178,7 +176,7 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
         )}
 
         {events.length > 0 && (
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8">
             <PDFDownloadLink
               document={
                 <CalendarPDF
@@ -189,7 +187,7 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
                 />
               }
               fileName={`semester-${semester}-calendar.pdf`}
-              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors duration-200 shadow-lg"
+              className="flex items-center justify-center gap-2 w-full bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors duration-200 shadow-lg"
             >
               {({ loading }) => (
                 <>
