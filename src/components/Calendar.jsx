@@ -116,7 +116,7 @@ const CalendarPDF = ({ events, semester, getSemesterSuffix, workingDays }) => (
 
 function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
   return (
-    <div className="bg-navy-900/50 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-blue-900/50">
+    <div className="bg-white rounded-3xl shadow-lg p-10 border border-gray-100">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-semibold flex items-center gap-3 text-gray-800">
             <CalendarIcon className="w-7 h-7 text-blue-600" />
