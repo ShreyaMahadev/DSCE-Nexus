@@ -10,42 +10,60 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
   },
   header: {
-    fontSize: 28,
-    marginBottom: 20,
+    fontSize: 24,
+    marginBottom: 10,
     textAlign: 'center',
     color: '#1e40af',
     textTransform: 'uppercase',
-    borderBottom: 2,
-    borderColor: '#3b82f6',
-    paddingBottom: 10,
   },
-  section: {
+  subHeader: {
+    fontSize: 16,
     marginBottom: 30,
-    borderRadius: 8,
-    padding: 15,
+    textAlign: 'center',
+    color: '#475569',
+  },
+  table: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  tableHeader: {
+    flexDirection: 'row',
+    backgroundColor: '#1e40af',
+    padding: 8,
+  },
+  tableHeaderCell: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'center',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    padding: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e8f0',
+  },
+  evenRow: {
     backgroundColor: '#f8fafc',
   },
-  eventContainer: {
-    marginBottom: 12,
-    padding: 12,
+  oddRow: {
     backgroundColor: '#ffffff',
-    borderRadius: 6,
-    borderLeft: 3,
-    borderColor: '#3b82f6',
   },
-  eventTitle: {
-    fontSize: 14,
-    marginBottom: 4,
-    color: '#1e293b',
-    fontWeight: 'bold',
-  },
-  eventDate: {
+  tableCell: {
     fontSize: 12,
-    color: '#64748b',
+    flex: 1,
+    textAlign: 'center',
+    color: '#1e293b',
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 40,
+    left: 40,
+    right: 40,
   },
   workingDays: {
-    marginTop: 40,
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     color: '#1e40af',
     padding: 15,
@@ -59,11 +77,21 @@ const CalendarPDF = ({ events, semester, getSemesterSuffix, workingDays }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.header}>DSCE Calendar of Events</Text>
-      <View style={styles.section}>
+      <Text style={styles.subHeader}>
+        {semester}{getSemesterSuffix(semester)} Semester Academic Calendar
+      </Text>
+      
+      <View style={styles.table}>
+        <View style={styles.tableHeader}>
+          <Text style={styles.tableHeaderCell}>Event</Text>
+          <Text style={styles.tableHeaderCell}>Date</Text>
+          <Text style={styles.tableHeaderCell}>Type</Text>
+        </View>
+        
         {events.map((event, index) => (
-          <View key={index} style={styles.eventContainer}>
-            <Text style={styles.eventTitle}>{event.title}</Text>
-            <Text style={styles.eventDate}>
+          <View key={index} style={[styles.tableRow, index % 2 === 0 ? styles.evenRow : styles.oddRow]}>
+            <Text style={styles.tableCell}>{event.title}</Text>
+            <Text style={styles.tableCell}>
               {new Date(event.date).toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
@@ -71,12 +99,18 @@ const CalendarPDF = ({ events, semester, getSemesterSuffix, workingDays }) => (
                 day: 'numeric',
               })}
             </Text>
+            <Text style={styles.tableCell}>
+              {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+            </Text>
           </View>
         ))}
       </View>
-      <Text style={styles.workingDays}>
-        Total Working Days: {workingDays}
-      </Text>
+
+      <View style={styles.footer}>
+        <Text style={styles.workingDays}>
+          Total Working Days: {workingDays}
+        </Text>
+      </View>
     </Page>
   </Document>
 );
