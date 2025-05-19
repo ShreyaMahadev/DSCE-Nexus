@@ -80,8 +80,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <div className="container py-16 space-y-20">
+    <div className="min-h-screen relative">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 pointer-events-none" />
+      <div className="container py-16 space-y-16">
         <Header 
           title="DSCE Calendar Generator" 
           subtitle="Create your personalized semester calendar with all important dates" 

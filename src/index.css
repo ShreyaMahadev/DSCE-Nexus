@@ -1,15 +1,15 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-emerald-950 text-emerald-50 antialiased;
+    @apply bg-[#0A0E17] text-gray-100 antialiased min-h-screen;
+    background-image: radial-gradient(circle at 50% 0%, rgba(28, 175, 159, 0.15), transparent 50%);
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-medium tracking-tight text-emerald-100;
+    @apply font-medium tracking-tight text-white;
   }
 }
 
@@ -17,34 +17,20 @@
   .container {
     @apply max-w-[1200px] mx-auto px-4 sm:px-6;
   }
-  
-  .btn-primary {
-    @apply bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium 
-           hover:bg-emerald-700 transition-colors duration-200 shadow-sm 
-           hover:shadow-emerald-900/20 active:scale-[0.98];
-  }
-  
-  .input-field {
-    @apply w-full px-4 py-3 rounded-xl border border-emerald-800 
-           bg-emerald-900/50 text-emerald-100 shadow-sm transition-all duration-200
-           focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 outline-none;
-  }
-}
 
-@layer components {
-  .container {
-    @apply max-w-[1200px] mx-auto px-4 sm:px-6;
+  .card {
+    @apply bg-[#151922]/80 backdrop-blur-sm rounded-2xl border border-[#2A2F3A] shadow-xl;
   }
-  
-  .btn-primary {
-    @apply bg-blue-600 text-white px-6 py-3 rounded-xl font-medium 
-           hover:bg-blue-700 transition-colors duration-200 shadow-sm 
-           hover:shadow-md active:scale-[0.98];
-  }
-  
+
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl border border-gray-200 
-           bg-white text-gray-900 shadow-sm transition-all duration-200
-           focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none;
+    @apply w-full px-4 py-3 rounded-xl bg-[#1A1F2A] border border-[#2A2F3A]
+           text-gray-100 placeholder-gray-500 shadow-inner
+           focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-teal-500 to-emerald-500 text-white 
+           px-6 py-3 rounded-xl font-medium shadow-lg shadow-teal-900/30
+           hover:from-teal-400 hover:to-emerald-400 transition-all duration-300;
   }
 }
