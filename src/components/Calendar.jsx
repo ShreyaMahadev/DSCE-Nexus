@@ -1,4 +1,3 @@
-
 import { Calendar as CalendarIcon, Calculator, Flag, Download } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
@@ -80,14 +79,14 @@ const CalendarPDF = ({ events, semester, getSemesterSuffix, workingDays }) => (
       <Text style={styles.subHeader}>
         {semester}{getSemesterSuffix(semester)} Semester Academic Calendar
       </Text>
-      
+
       <View style={styles.table}>
         <View style={styles.tableHeader}>
           <Text style={styles.tableHeaderCell}>Event</Text>
           <Text style={styles.tableHeaderCell}>Date</Text>
           <Text style={styles.tableHeaderCell}>Type</Text>
         </View>
-        
+
         {events.map((event, index) => (
           <View key={index} style={[styles.tableRow, index % 2 === 0 ? styles.evenRow : styles.oddRow]}>
             <Text style={styles.tableCell}>{event.title}</Text>
@@ -119,18 +118,18 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
   return (
     <div className="bg-navy-900/50 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-blue-900/50">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-semibold flex items-center gap-3 text-white">
-          <CalendarIcon className="w-7 h-7 text-blue-400" />
-          {semester}{getSemesterSuffix(semester)} Semester Calendar
-        </h2>
-        {workingDays > 0 && (
-          <div className="flex items-center gap-2 bg-blue-900/50 px-4 py-2 rounded-lg">
-            <Calculator className="w-5 h-5 text-blue-400" />
-            <span className="text-blue-200 font-medium">{workingDays} Working Days</span>
-          </div>
-        )}
+        <h2 className="text-2xl font-semibold flex items-center gap-3 text-gray-800">
+            <CalendarIcon className="w-7 h-7 text-blue-600" />
+            {semester}{getSemesterSuffix(semester)} Semester Calendar
+          </h2>
+          {workingDays > 0 && (
+            <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-lg">
+              <Calculator className="w-5 h-5 text-blue-600" />
+              <span className="text-blue-800 font-medium">{workingDays} Working Days</span>
+            </div>
+          )}
       </div>
-      
+
       <div className="space-y-4">
         {events.map((event, index) => (
           <div
@@ -157,7 +156,7 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
             </p>
           </div>
         ))}
-        
+
         {events.length === 0 && (
           <div className="text-center text-gray-400 py-12">
             <CalendarIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
@@ -165,29 +164,6 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
           </div>
         )}
       </div>
-
-      {events.length > 0 && (
-        <div className="mt-8">
-          <PDFDownloadLink
-            document={
-              <CalendarPDF
-                events={events}
-                semester={semester}
-                getSemesterSuffix={getSemesterSuffix}
-                workingDays={workingDays}
-              />
-            }
-            fileName={`semester-${semester}-calendar.pdf`}
-          >
-            {({ loading }) => (
-              <button className="w-full bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors duration-200 shadow-lg flex items-center justify-center gap-2">
-                <Download className="w-5 h-5" />
-                {loading ? 'Preparing PDF...' : 'Download Calendar PDF'}
-              </button>
-            )}
-          </PDFDownloadLink>
-        </div>
-      )}
 
       {events.length > 0 && (
         <div className="mt-8">
