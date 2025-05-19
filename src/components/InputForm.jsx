@@ -1,4 +1,5 @@
-import { School, Clock, BookOpen } from 'lucide-react';
+import { School, Clock, BookOpen, Building2 } from 'lucide-react';
+import { departments } from '../data/departments';
 import PropTypes from 'prop-types';
 
 function InputForm({ 
@@ -37,6 +38,21 @@ function InputForm({
             {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
               <option key={sem} value={sem}>
                 {sem}{getSemesterSuffix(sem.toString())} Semester
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="mb-8">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Select Department
+          </label>
+          <select
+            className="w-full px-4 py-3 rounded-xl border-blue-900 bg-blue-900/20 text-white shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200/20"
+          >
+            {departments.map((dept) => (
+              <option key={dept.id} value={dept.id}>
+                {dept.name}
               </option>
             ))}
           </select>
