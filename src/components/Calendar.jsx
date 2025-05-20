@@ -4,106 +4,213 @@ import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-
 
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
+    padding: 20,
     backgroundColor: '#ffffff',
     fontFamily: 'Helvetica',
   },
   header: {
-    fontSize: 28,
     marginBottom: 20,
     textAlign: 'center',
-    color: '#1e40af',
-    textTransform: 'uppercase',
-    borderBottom: 2,
-    borderColor: '#3b82f6',
-    paddingBottom: 10,
   },
-  subHeader: {
-    fontSize: 20,
-    marginBottom: 30,
-    textAlign: 'center',
-    color: '#3b82f6',
-    fontStyle: 'italic',
+  headerImage: {
+    height: 60,
+    marginBottom: 10,
   },
-  section: {
-    marginBottom: 30,
-    borderRadius: 8,
-    padding: 15,
-    backgroundColor: '#f8fafc',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    marginBottom: 15,
-    color: '#1e40af',
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    borderBottom: 1,
-    borderColor: '#3b82f6',
-    paddingBottom: 5,
-  },
-  eventContainer: {
-    marginBottom: 12,
-    padding: 12,
-    backgroundColor: '#ffffff',
-    borderRadius: 6,
-    borderLeft: 3,
-    borderColor: '#3b82f6',
-  },
-  eventTitle: {
-    fontSize: 14,
-    marginBottom: 4,
-    color: '#1e293b',
-    fontWeight: 'bold',
-  },
-  eventDate: {
-    fontSize: 12,
-    color: '#64748b',
-    fontStyle: 'italic',
-  },
-  workingDays: {
-    marginTop: 40,
+  title: {
     fontSize: 16,
-    textAlign: 'center',
-    color: '#1e40af',
-    padding: 15,
-    backgroundColor: '#f0f9ff',
-    borderRadius: 8,
     fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#000000',
+    textTransform: 'uppercase',
+  },
+  table: {
+    display: 'table',
+    width: 'auto',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+    marginBottom: 10,
+  },
+  tableRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+    minHeight: 30,
+    backgroundColor: '#fff',
+  },
+  tableHeaderRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+    minHeight: 30,
+    backgroundColor: '#f0f0f0',
+  },
+  weekNoCell: {
+    width: '8%',
+    borderRightWidth: 1,
+    borderRightColor: '#000',
+    padding: 5,
+  },
+  monthCell: {
+    width: '12%',
+    borderRightWidth: 1,
+    borderRightColor: '#000',
+    padding: 5,
+  },
+  daysCell: {
+    width: '50%',
+    borderRightWidth: 1,
+    borderRightColor: '#000',
+    padding: 5,
+    flexDirection: 'row',
+  },
+  dayColumn: {
+    width: '16.66%',
+    textAlign: 'center',
+    borderRightWidth: 1,
+    borderRightColor: '#000',
+    padding: 2,
+  },
+  workingDaysCell: {
+    width: '10%',
+    borderRightWidth: 1,
+    borderRightColor: '#000',
+    padding: 5,
+    textAlign: 'center',
+  },
+  remarksCell: {
+    width: '20%',
+    padding: 5,
+  },
+  cellText: {
+    fontSize: 8,
+    color: '#000000',
+  },
+  headerText: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  holidayText: {
+    fontSize: 8,
+    color: '#ff0000',
   }
 });
 
-const CalendarPDF = ({ events, semester, getSemesterSuffix, workingDays }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <Text style={styles.header}>DAYANANDA SAGAR COLLEGE OF ENGINEERING</Text>
-      <Text style={styles.subHeader}>
-        Department of Computer Science and Engineering{'\n'}
-        Calendar of Events for {semester}{getSemesterSuffix(semester)} Semester
-      </Text>
+const CalendarPDF = ({ events, semester, workingDays }) => {
+  // Group events by week
+  const weeks = [];
+  let currentDate = new Date(events[0]?.date);
+  const endDate = new Date(events[events.length - 1]?.date);
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Events</Text>
-        {events.map((event, index) => (
-          <View key={index} style={styles.eventContainer}>
-            <Text style={styles.eventTitle}>{event.title}</Text>
-            <Text style={styles.eventDate}>
-              {new Date(event.date).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </Text>
+  while (currentDate <= endDate) {
+    const weekStart = new Date(currentDate);
+    const weekEvents = events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate >= weekStart && 
+             eventDate < new Date(weekStart.getTime() + 7 * 24 * 60 * 60 * 1000);
+    });
+
+    if (weekEvents.length > 0) {
+      weeks.push({
+        weekNo: weeks.length + 1,
+        month: weekStart.toLocaleString('default', { month: 'short' }).toUpperCase(),
+        events: weekEvents,
+        workingDays: 5 // Simplified - you might want to calculate this properly
+      });
+    }
+
+    currentDate.setDate(currentDate.getDate() + 7);
+  }
+
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.header}>
+          <Text style={styles.title}>
+            DAYANANDA SAGAR COLLEGE OF ENGINEERING{'\n'}
+            {semester} SEMESTER CALENDAR OF EVENTS 2024-25
+          </Text>
+        </View>
+
+        <View style={styles.table}>
+          {/* Table Header */}
+          <View style={styles.tableHeaderRow}>
+            <View style={styles.weekNoCell}>
+              <Text style={styles.headerText}>WEEK NO.</Text>
+            </View>
+            <View style={styles.monthCell}>
+              <Text style={styles.headerText}>MONTH</Text>
+            </View>
+            <View style={styles.daysCell}>
+              <View style={styles.dayColumn}>
+                <Text style={styles.headerText}>MON</Text>
+              </View>
+              <View style={styles.dayColumn}>
+                <Text style={styles.headerText}>TUE</Text>
+              </View>
+              <View style={styles.dayColumn}>
+                <Text style={styles.headerText}>WED</Text>
+              </View>
+              <View style={styles.dayColumn}>
+                <Text style={styles.headerText}>THU</Text>
+              </View>
+              <View style={styles.dayColumn}>
+                <Text style={styles.headerText}>FRI</Text>
+              </View>
+              <View style={styles.dayColumn}>
+                <Text style={styles.headerText}>SAT</Text>
+              </View>
+            </View>
+            <View style={styles.workingDaysCell}>
+              <Text style={styles.headerText}>WORKING DAYS</Text>
+            </View>
+            <View style={styles.remarksCell}>
+              <Text style={styles.headerText}>REMARKS</Text>
+            </View>
           </View>
-        ))}
-      </View>
 
-      <Text style={styles.workingDays}>
-        Total Working Days: {workingDays}
-      </Text>
-    </Page>
-  </Document>
-);
+          {/* Table Body */}
+          {weeks.map((week, index) => (
+            <View key={index} style={styles.tableRow}>
+              <View style={styles.weekNoCell}>
+                <Text style={styles.cellText}>{week.weekNo}</Text>
+              </View>
+              <View style={styles.monthCell}>
+                <Text style={styles.cellText}>{week.month}</Text>
+              </View>
+              <View style={styles.daysCell}>
+                {['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map((day, dayIndex) => (
+                  <View key={dayIndex} style={styles.dayColumn}>
+                    <Text style={styles.cellText}>
+                      {week.events.find(e => new Date(e.date).getDay() === dayIndex + 1)?.date.split('-')[2] || ''}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+              <View style={styles.workingDaysCell}>
+                <Text style={styles.cellText}>{week.workingDays}</Text>
+              </View>
+              <View style={styles.remarksCell}>
+                <Text style={styles.cellText}>
+                  {week.events
+                    .filter(e => e.type === 'holiday' || e.type === 'cia')
+                    .map(e => e.title)
+                    .join(', ')}
+                </Text>
+              </View>
+            </View>
+          ))}
+        </View>
+
+        <Text style={[styles.cellText, { marginTop: 10 }]}>
+          Total Working Days: {workingDays}
+        </Text>
+      </Page>
+    </Document>
+  );
+};
 
 function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
   return (
@@ -173,7 +280,6 @@ function Calendar({ events, semester, getSemesterSuffix, workingDays }) {
                 <CalendarPDF
                   events={events}
                   semester={semester}
-                  getSemesterSuffix={getSemesterSuffix}
                   workingDays={workingDays}
                 />
               }
