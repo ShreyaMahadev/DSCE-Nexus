@@ -1,6 +1,10 @@
 # DSCE Nexus
 
-DSCE Nexus is a project repository designed to streamline and manage various development tasks. It includes features like a semester calendar generator, working days calculator, and holiday management, built using React, Tailwind CSS, and Vite.
+DSCE Nexus is a project repository designed to streamline and manage various development tasks. It includes features like a semester calendar generator, working days calculator, and holiday management, built using React, Tailwind CSS, and Vite.<br>
+
+## 🚀 Live Demo
+
+Check out the live project here: [DSCE Nexus](https://dsce-nexus.vercel.app/)
 
 ## Features
 
